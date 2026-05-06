@@ -6,7 +6,7 @@ Base: `/wp-json/fluent-boards/v2`. For posting, prefer `post-comment.sh`. For ev
 |---|--------|------|---------|
 | 1 | GET | `/projects/{board_id}/tasks/{task_id}/comments` | Paginated comment list. |
 | 2 | POST | `/projects/{board_id}/tasks/{task_id}/comments` | Create a comment or a threaded reply. |
-| 3 | PUT | `/projects/{board_id}/tasks/{task_id}/comments/{comment_id}` | Edit an existing comment. |
+| 3 | PUT | `/projects/{board_id}/tasks/comments/{comment_id}` | Edit an existing comment. ⚠ Path omits `tasks/{task_id}` (same shape as DELETE). |
 | 4 | DELETE | `/projects/{board_id}/tasks/comments/{comment_id}` | Delete a comment. ⚠ Path omits `tasks/{task_id}`. |
 | 5 | POST | `/projects/{board_id}/tasks/{task_id}/comment-image-upload` | Upload an image to embed in a comment. |
 
