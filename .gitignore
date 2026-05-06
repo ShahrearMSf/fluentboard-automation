@@ -1,0 +1,33 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor / IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.#*
+
+# Python build artifacts (used by ad-hoc helper scripts)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+
+# Local credential files this skill's loader reads
+.env
+.fluentboards
+
+# Generated data — these contain board contents and shouldn't be pushed
+BetterDocs_ToDo.xlsx
+*.xlsx
+*.csv
+
+# Resolver / runtime caches the scripts may write
+fb-resolve-cache.txt
+*.log
