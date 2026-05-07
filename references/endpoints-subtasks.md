@@ -4,6 +4,12 @@ Base: `/wp-json/fluent-boards/v2`. Call via `request.sh METHOD PATH [BODY]`.
 
 Subtasks are grouped under a parent task into one or more **subtask groups** (a kind of checklist section). Many endpoints take `task_id` in the path — for most subtask ops, `task_id` refers to the **parent** task; for a few (delete, clone, move-to-board), `task_id` refers to the **subtask itself**.
 
+## Quirks worth knowing before you build on these endpoints
+
+- **`GET /subtasks` returns `title: null` for every subtask group**, even when the group was created with a title and the UI clearly shows it. The titles are stored server-side; the list response just omits them. To learn a group's title, capture it from the **create response** (see `subtaskGroup.value` below) and remember it client-side, or call the rename endpoint to overwrite it.
+- **Subtask titles are editable via the regular task PUT endpoint**, not a subtask-specific route. Since subtasks are stored as tasks with `parent_id` set, the standard `PUT /projects/{board_id}/tasks/{subtask_id}` with `{ "property": "title", "value": "…" }` works and is the only documented way to rename a subtask. `update-task.sh` works on subtask IDs unchanged. No edit endpoint is listed in the table below because there's no subtask-specific one.
+- **`create-subtask-group.sh` and `create-subtask.sh` may fail under zsh** with `(eval):N: failed to change group ID: operation not permitted` — this is a shell-level issue that has shown up on at least one macOS install. If you hit it, fall back to direct API calls via `request.sh` (the underlying endpoints work fine; only the wrappers trip).
+
 | # | Method | Path | Purpose |
 |---|--------|------|---------|
 | 1 | GET | `/projects/{board_id}/tasks/{task_id}/subtasks` | List subtask groups + their subtasks. |
@@ -38,6 +44,24 @@ Subtasks are grouped under a parent task into one or more **subtask groups** (a 
 // delete
 { "group_id": 18 }
 ```
+
+The **create response** uses an unusual shape — the title comes back as a key/value pair, not as a `title` field:
+
+```json
+{
+  "subtaskGroup": {
+    "key": "group_name",
+    "value": "Rollout checklist",
+    "task_id": 80927,
+    "id": 181429,
+    "created_at": "…",
+    "updated_at": "…"
+  },
+  "message": "New Subtask group has been added"
+}
+```
+
+So pull the new group id from `subtaskGroup.id` and the title from `subtaskGroup.value`. `create-subtask-group.sh` already handles this and emits a normalised `{group_id, title, raw_create}` shape.
 
 ## 7. POST — move subtasks between groups
 

@@ -105,8 +105,8 @@ Every script lives in `<skill_path>/scripts/`. Call with `bash <skill_path>/scri
 | `upload-attachment.sh` | `<url-or-id> <file> [<file2> …]` | Multipart file upload (supports many files). |
 | `assign-label.sh` | `<url-or-id> <label_id>` | Attach an existing label. Create labels via `request.sh POST /projects/B/labels`. |
 | `assign-user.sh` | `<url-or-id> <user_id> [--remove]` | Add (or remove with `--remove`) a user to a task's assignees. Idempotent — fetches current assignees and merges, since the underlying PUT takes the full list. |
-| `create-subtask-group.sh` | `<url-or-id> <title>` | Create a subtask group (checklist section). Always emits `{group_id, title, …}`; re-fetches the subtask tree if the create response omits the id. |
-| `create-subtask.sh` | `<url-or-id> <group_id> <title> [--due=YYYY-MM-DD] [--top]` | Add a subtask to an existing group. |
+| `create-subtask-group.sh` | `<url-or-id> <title>` | Create a subtask group (checklist section). Always emits `{group_id, title, …}`; re-fetches the subtask tree if the create response omits the id. ⚠ The Fluentboards `GET /subtasks` endpoint returns `title: null` for every group — capture the title from the create response and remember it client-side. To rename, use endpoint #4 (`PUT subtask-group`). |
+| `create-subtask.sh` | `<url-or-id> <group_id> <title> [--due=YYYY-MM-DD] [--top]` | Add a subtask to an existing group. ⚠ Some shells (zsh on at least one macOS install) trip on `(eval): failed to change group ID: operation not permitted` — fall back to `request.sh POST /projects/{B}/tasks/{T}/subtasks` with the body documented in [references/endpoints-subtasks.md](references/endpoints-subtasks.md). To **rename** a subtask, treat it as a task: `update-task.sh <subtask_id> title "<new title>"`. |
 
 ### Global flags (every script)
 
