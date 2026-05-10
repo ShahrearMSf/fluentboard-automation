@@ -43,7 +43,7 @@ Supported `property` values include:
 
 - `title` (string)
 - `description` (string; plain or HTML)
-- `status` (string)
+- `status` (string — `open` / `closed` etc. ⚠ For **subtasks**, `status="closed"` is the only thing you should send to mark complete; the server auto-fills `last_completed_at`. Do not also PUT `last_completed_at` afterwards — it resets `status` back to `open`. See [endpoints-subtasks.md](endpoints-subtasks.md#quirks-worth-knowing-before-you-build-on-these-endpoints).)
 - `priority` (`low` | `medium` | `high`)
 - `due_at` (ISO-like datetime, e.g. `"2026-05-01 00:00:00"`)
 - `started_at` (datetime)
