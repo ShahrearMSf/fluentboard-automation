@@ -24,9 +24,10 @@ venv/
 .fluentboards
 
 # Generated data — these contain board contents and shouldn't be pushed
-BetterDocs_ToDo.xlsx
 *.xlsx
 *.csv
+fb_release_bundle*.md
+slack_*.txt
 
 # Resolver / runtime caches the scripts may write
 fb-resolve-cache.txt
