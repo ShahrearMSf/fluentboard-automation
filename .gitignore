@@ -32,3 +32,4 @@ slack_*.txt
 # Resolver / runtime caches the scripts may write
 fb-resolve-cache.txt
 *.log
+test.html
